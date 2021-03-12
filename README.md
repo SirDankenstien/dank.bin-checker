@@ -1,2 +1,2 @@
 # dank.bin-checker
-Generates and checks bins for validity
+Generates and checks bins for validity with selenium
