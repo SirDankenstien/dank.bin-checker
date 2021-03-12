@@ -65,8 +65,6 @@ except:
     pass
 os.chdir(main_dir)
 
-
-
 def os_arch():
     os_arch = '32'
     if os.name == 'nt':
@@ -140,7 +138,6 @@ def get_firefox_version():
     else:
         return
     return version
-
 
 def get_chrome_version():
     """
@@ -284,8 +281,6 @@ def setup_Firefox(firefox_ver):
             dwnld_zip_file(dwnldLink, './webdriver')
     else:
         print('Firefox is not installed')
-
-
 
 def install(name):
     subprocess.check_call([sys.executable, '-m', 'pip', 'install', name])
