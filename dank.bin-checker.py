@@ -16,7 +16,11 @@ except:
     pass
 os.chdir(main_dir)
 
-fp = open('prefBrowser.txt', 'r')
+try:
+    fp = open('prefBrowser.txt', 'r')
+except:
+    print( "\n> Error! Please run setup.py")
+    exit()
 typex = fp.read()
 
 def bannerTop():
@@ -66,8 +70,8 @@ print( fw+sb + "\n> " + fm+sb + "Creating Bins...")
 
 txt = open("generated.txt", "a+")
 for i in range(amount):
-    cc = str(random.randint(3, 5)) + str(random.randint(0, 9)) + str(random.randint(0, 9)) + str(random.randint(0, 9)) + str(random.randint(0, 9)) + str(random.randint(0, 9))
-    txt.write( cc + "\n")
+    generated_bin = str(random.randint(3, 5)) + str(random.randint(0, 9)) + str(random.randint(0, 9)) + str(random.randint(0, 9)) + str(random.randint(0, 9)) + str(random.randint(0, 9))
+    txt.write( generated_bin + "\n")
 txt.close()
 
 print( fw+sb + "\n> " + fm+sb + "Saved!")
@@ -112,6 +116,8 @@ driver.find_element_by_name('rememberme').click()
 time.sleep(0.7)
 driver.find_element_by_xpath('//button[contains(text(),"Login")]').click()
 
+print( fw+sb + "\n> " + fm+sb + "Navigating to bin-checker...")
+
 time.sleep(0.7)
 driver.get("http://www.sayapro.us/bin/")
 
@@ -128,7 +134,7 @@ print( fw+sb + "\n> " + fm+sb + "Pasting from generated.txt...")
 time.sleep(0.7)
 driver.find_element_by_xpath('//textarea[@id="creditcard"]').send_keys(generated)
 
-print( fw+sb + "\n> " + fm+sb + "Cleaning generated.txt...")
+print( fw+sb + "\n> " + fm+sb + "Clearing generated.txt...")
 open('generated.txt', 'w').close()
 
 print( fw+sb + "\n> " + fm+sb + "Starting Bin Checker...")
@@ -136,16 +142,18 @@ print( fw+sb + "\n> " + fm+sb + "Starting Bin Checker...")
 time.sleep(0.7)
 driver.find_element_by_xpath('//button[@id="submit"]').click()
 
-print( fw+sb + "\n> " + fm+sb + "Checking...")
+print( fw+sb + "\n> " + fm+sb + "Checking...\n")
 
 time.sleep(0.7)
-WebDriverWait(driver, 600).until(
+WebDriverWait(driver, 999999).until(
     EC.visibility_of_element_located((By.XPATH, "//div[contains(text(),'100%')]"))
 )
 
-time.sleep(4)
-WebDriverWait(driver, 600).until(
-    EC.visibility_of_element_located((By.XPATH, "//div[contains(text(),'download')]"))
-).click()
+#driver.find_element_by_class_name("btn btn-success btn-xs").click()
 
-print( fw+sb + "\n> " + fm+sb + "Complete! You can now download the bins!")
+#time.sleep(4)
+#WebDriverWait(driver, 60).until(
+#    EC.visibility_of_element_located((By.XPATH, "//div[contains(text(),'download')]"))
+#).click()
+
+print( fw+sb + "\n> " + fm+sb + "Complete! Please download the list manually :)")
