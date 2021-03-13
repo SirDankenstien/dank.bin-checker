@@ -333,6 +333,6 @@ def main():
         else:
              print('Wrong id, Either input 1 or 2')
 
-    print('Setup Completed')
+    print( fw+sb + "\n> " + fm+sb + 'Setup Completed\n')
 if __name__ == '__main__':
     main()
