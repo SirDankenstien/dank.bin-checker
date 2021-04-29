@@ -9,6 +9,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 
+os.chdir(os.path.dirname(__file__))
 main_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dank.bin-checker')
 try:
     os.mkdir(main_dir)

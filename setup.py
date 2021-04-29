@@ -1,4 +1,5 @@
 import os, sys, subprocess, urllib, time, random
+os.chdir(os.path.dirname(__file__))
 
 try:
     import requests
