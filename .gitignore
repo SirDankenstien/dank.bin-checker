@@ -1,2 +1,5 @@
 
 *.pyc
+dank.bin-checker/geckodriver.log
+dank.bin-checker/webdriver/chromedriver.exe
+dank.bin-checker/webdriver/geckodriver.exe
