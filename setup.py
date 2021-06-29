@@ -36,28 +36,10 @@ finally:
     import selenium
 
 init(autoreset=True)
-# colors foreground text:
-fc = Fore.CYAN
-fg = Fore.GREEN
-fw = Fore.WHITE
-fr = Fore.RED
-fb = Fore.BLUE
-fy = Fore.YELLOW
-fm = Fore.MAGENTA
-
-# colors background text:
-bc = Back.CYAN
-bg = Back.GREEN
-bw = Back.WHITE
-br = Back.RED
-bb = Back.BLUE
-by = Back.YELLOW
-bm = Back.MAGENTA
-
-# colors style text:
-sd = Style.DIM
-sn = Style.NORMAL
-sb = Style.BRIGHT
+white = Fore.WHITE + Style.BRIGHT
+pink = Fore.MAGENTA + Style.BRIGHT
+red = Fore.RED + Style.BRIGHT
+cyan = Fore.CYAN + Style.BRIGHT
 
 main_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dank.bin-checker')
 try:
@@ -65,6 +47,11 @@ try:
 except:
     pass
 os.chdir(main_dir)
+
+try:
+    open("prefBrowser.txt", "x")
+except:
+    pass
 
 def os_arch():
     os_arch = '32'
@@ -216,38 +203,38 @@ def get_chrome_driver_dwnld_url(version):
 
 def dwnld_zip_file(url, save_path, chunk_size=128):
 
-    print('Downloading...')
+    print( cyan + 'Downloading...')
 
     r = requests.get(url)
 
     total_length = int(r.headers['Content-Length'])
 
     if total_length is None or total_length == 0:
-        print('Download failed')
+        print( red + 'Download failed')
         exit()
 
     with ZipFile(BytesIO(r.content)) as my_zip_file:
         for chunk in progress.bar(r.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1):
             pass
-        print('Download Successful')
+        print( cyan + 'Download Successful')
         my_zip_file.extractall(save_path)
 
 def dwnld_tar_file(url, save_path):
 
-    print('Downloading...')
+    print( cyan + 'Downloading...')
 
     response = requests.get(url)
 
     total_length = sum(len(chunk) for chunk in response.iter_content(8196))
 
     if total_length is None or total_length == 0:
-        print('Download Failed')
+        print( red + 'Download Failed')
         exit()
 
     with tarfile.open(fileobj=BytesIO(response.content), mode='r|gz') as my_tar_file:
         for chunk in progress.bar(response.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1):
             pass
-        print('Download Successful')
+        print( cyan + 'Download Successful')
         my_tar_file.extractall(save_path)
 
 ######## For Chrome ########
@@ -255,14 +242,14 @@ def dwnld_tar_file(url, save_path):
 def setup_Chrome(version):
     mjVer = get_major_version(version)
     if mjVer != None:
-        print('Installed version - ' + str(mjVer))
+        print( cyan + 'Installed version - ' + str(mjVer))
         chromeDv = get_chrome_driver_v(mjVer)
-        print('Chrome Driver Version Needed -', chromeDv)
+        print( cyan + 'Chrome Driver Version Needed -', chromeDv)
         dwnldLink = get_chrome_driver_dwnld_url(chromeDv)
 
         dwnld_zip_file(dwnldLink, './webdriver')
     else:
-        print('Chrome is not downloaded')
+        print( red + 'Chrome is not downloaded')
 
 
 ######## For Firefox ########
@@ -271,9 +258,9 @@ def setup_Firefox(firefox_ver):
     arc_user = get_platform_architecture_firefox()
     # firefox_ver = get_firefox_version()
     if firefox_ver != None:
-        print('Installed verision - ' + str(firefox_ver))
+        print( cyan + 'Installed verision - ' + str(firefox_ver))
         latestDriverv = get_latest_geckodriver_version()
-        print('Latest geckodriver version - ' + latestDriverv)
+        print( cyan + 'Latest geckodriver version - ' + latestDriverv)
         dwnldLink = get_dwnld_url_firefox(latestDriverv)
         if dwnldLink.endswith('.tar.gz'):
             dwnld_tar_file(dwnldLink, './webdriver')
@@ -281,7 +268,7 @@ def setup_Firefox(firefox_ver):
             pass
             dwnld_zip_file(dwnldLink, './webdriver')
     else:
-        print('Firefox is not installed')
+        print( red + 'Firefox is not installed')
 
 def install(name):
     subprocess.check_call([sys.executable, '-m', 'pip', 'install', name])
@@ -290,7 +277,7 @@ def main():
 
     installed_pr = [] 
 
-    print('Firefox')
+    print( cyan + 'Firefox')
     firefox_ver = get_firefox_version()
     if firefox_ver != None:
         is_firefox_there = 1
@@ -298,9 +285,9 @@ def main():
         setup_Firefox(firefox_ver)
     else:
         is_firefox_there = 0
-        print('Firefox isn\'t installed')
+        print( red + 'Firefox isn\'t installed')
     
-    print('\nChrome')
+    print( cyan + '\nChrome')
     chrome_ver = get_chrome_version()
 
     if chrome_ver != None:
@@ -309,21 +296,21 @@ def main():
         setup_Chrome(chrome_ver)
     else:
         is_chrome_there = 0
-        print('Chrome isn\'t installed')
+        print( red + 'Chrome isn\'t installed')
     
     if is_firefox_there == 0 and is_chrome_there == 0:
-        print('Error - Setup installation failed \nReason - Please install either Chrome or Firefox browser to complete setup process')
+        print( red + 'Error - Setup installation failed \nReason - Please install either Chrome or Firefox browser to complete setup process')
         exit()
 
-    print( fw+sb + "\n> " + fm+sb + 'Wich browser do you prefer to run script on?')
+    print( white + "\n> " + pink + 'Wich browser do you prefer to run script on?')
 
     for index, pr in enumerate(installed_pr, start=1):
-        print('\n[*] ' + str(index) + ' ' + pr)
+        print( cyan + '\n[*] ' + pink + str(index) + ' ' + pr)
     
     inpErr = True
 
     while inpErr != False:
-        print( fw+sb + "\n> " + fm+sb + 'Enter id ex - 1 or 2: ', end='')
+        print( white + "\n> " + pink + 'Enter id ex - 1 or 2: ', end='')
         userInput = int(input())
 
         if userInput <= len(installed_pr) and userInput > 0:
@@ -332,8 +319,8 @@ def main():
             fp.write(selected.lower())
             inpErr = False
         else:
-             print('Wrong id, Either input 1 or 2')
+             print( red + 'Wrong id, Either input 1 or 2')
 
-    print( fw+sb + "\n> " + fm+sb + 'Setup Completed\n')
+    print( white + "\n> " + pink + 'Setup Completed\n')
 if __name__ == '__main__':
     main()
